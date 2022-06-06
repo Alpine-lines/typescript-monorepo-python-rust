@@ -1,5 +1,5 @@
 {
-  "name": "infotition-react-component-library-boilerplate",
+  "name": "ui",
   "version": "1.0.0",
   "description": "Boilerplate for NPM packages with storybook, typescript, jest, eslint, prettier and tailwindcss development environment.",
   "main": "build/index.js",
