@@ -1,16 +1,18 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
-import { registerTitlebarIpc } from '@misc/window/titlebarIPC.js';
+import { registerTitlebarIpc } from '@misc/window/titlebarIPC';
 
 // Electron Forge automatically creates these entry points
+declare const APP_WINDOW_WEBPACK_ENTRY: string;
+declare const APP_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
-let appWindow;
+let appWindow: BrowserWindow;
 
 /**
  * Create Application Window
  * @returns {BrowserWindow} Application Window Instance
  */
-export function createAppWindow() {
+export function createAppWindow(): BrowserWindow {
   // Create new window instance
   appWindow = new BrowserWindow({
     width: 800,
@@ -26,13 +28,11 @@ export function createAppWindow() {
       contextIsolation: true,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
-      // eslint-disable-next-line no-undef
       preload: APP_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
   // Load the index.html of the app window.
-  // eslint-disable-next-line no-undef
   appWindow.loadURL(APP_WINDOW_WEBPACK_ENTRY);
 
   // Show window when its ready to

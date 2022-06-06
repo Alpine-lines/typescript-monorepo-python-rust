@@ -15,23 +15,14 @@ module.exports = [
       },
     },
   },
-  // {
-  //   // Typescript loader
-  //   test: /\.tsx?$/,
-  //   exclude: /(node_modules|\.webpack)/,
-  //   use: {
-  //     loader: 'ts-loader',
-  //     options: {
-  //       transpileOnly: true,
-  //     },
-  //   },
-  // },
   {
-    test: /\.(js|jsx)$/,
+    // Typescript loader
+    test: /\.tsx?$/,
+    exclude: /(node_modules|\.webpack)/,
     use: {
-      loader: 'babel-loader',
+      loader: 'ts-loader',
       options: {
-        presets: ['@babel/env', '@babel/react'],
+        transpileOnly: true,
       },
     },
   },
@@ -39,6 +30,15 @@ module.exports = [
     // CSS Loader
     test: /\.css$/,
     use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+  },
+  {
+    // SCSS (SASS) Loader
+    test: /\.s[ac]ss$/i,
+    use: [
+      { loader: 'style-loader' },
+      { loader: 'css-loader' },
+      { loader: 'sass-loader' },
+    ],
   },
   {
     // Less loader

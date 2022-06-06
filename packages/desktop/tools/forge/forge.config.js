@@ -8,7 +8,7 @@ module.exports = {
     // Create asar archive for main, renderer process files
     asar: true,
     // Set executable name
-    executableName: 'Electron React Boilerplate',
+    executableName: 'ERWT Boilerplate',
     // Set application copyright
     appCopyright: 'Copyright (C) 2021 Codesbiome, Guasam',
   },
@@ -70,11 +70,11 @@ module.exports = {
               // HTML index file template
               html: path.join(rootDir, 'src/renderer/app.html'),
               // Renderer
-              js: path.join(rootDir, 'src/renderer/appRenderer.jsx'),
+              js: path.join(rootDir, 'src/renderer/appRenderer.tsx'),
               // Main Window
               // Preload
               preload: {
-                js: path.join(rootDir, 'src/renderer/appPreload.js'),
+                js: path.join(rootDir, 'src/renderer/appPreload.tsx'),
               },
             },
           ],

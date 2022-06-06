@@ -17,17 +17,25 @@
     "clean": "./clean_workspace.sh && yarn cache clean",
     "lint-staged": "lint-staged",
     "lint": "yarn workspaces run lint",
+    "lint:ui": "yarn workspace ui run lint",
+    "lint:app": "yarn workspace app run lint",
+    "lint:desktop": "yarn workspaces desktop run lint",
+    "lint:extension": "yarn workspace extension run lint",
     "app": "yarn workspace app dev",
     "build:app": "yarn workspace app build",
     "serve:app": "yarn workspace app start",
-    "firefox": "yarn workspace extension firefox",
-    "ext": "yarn workspace extension start",
+    "extension": "yarn workspace extension dev",
     "build:ext": "yarn workspace extension build:all",
     "desktop": "yarn workspace desktop dev",
-    "build:desktop": "yarn workspace desktop build",
+    "make:desktop": "yarn workspace desktop make",
+    "package:desktop": "yarn workspace desktop package",
     "fetch:locale": "yarn workspace @hunt/ui fetch:locale",
     "test": "yarn test:unit",
     "test:unit": "yarn jest ./test/unit/",
+    "test:ui": "yarn workspace ui run test",
+    "test:app": "yarn workspace app run test",
+    "test:desktop": "yarn workspace desktop run test",
+    "test:extension": "yarn workspace extension run test",
     "setup:env": "if [ ! -f .env ]; then cp .env.example .env; fi",
     "prepare": "husky install"
   },
@@ -109,6 +117,7 @@
     "**/immer": "^9"
   },
   "nohoist": [
-    "packages/common/ui/**/**"
+    "packages/ui/**/**",
+    "packages/desktop/**/**"
   ]
 }

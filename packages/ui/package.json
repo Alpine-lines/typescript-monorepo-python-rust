@@ -2,6 +2,7 @@
   "name": "ui",
   "version": "1.0.0",
   "description": "Boilerplate for NPM packages with storybook, typescript, jest, eslint, prettier and tailwindcss development environment.",
+  "private": true,
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
