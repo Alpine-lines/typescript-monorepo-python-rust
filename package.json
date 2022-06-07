@@ -32,7 +32,7 @@
     "make:desktop": "yarn workspace desktop make",
     "package:desktop": "yarn workspace desktop package",
     "install": "yarn install && yarn workspace ui install && yarn workspace desktop install && yarn postinstall",
-    "postinstall": "yarn setup:env && husky install && yarn link",
+    "postinstall": "yarn setup:env && husky install && yarn link:ui",
     "scripts:bash": "bash scripts/script.sh",
     "scripts:js": "node scripts/script.js",
     "prepare": "husky install",
