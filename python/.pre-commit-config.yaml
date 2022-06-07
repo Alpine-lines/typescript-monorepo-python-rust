@@ -1,0 +1,231 @@
+# This removes comments
+#- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+#  rev: v2.1.0
+#  hooks:
+#  - id: pretty-format-toml
+#    args: [--autofix]
+
+repos:
+# Convert simple things like set([]) to set()
+- repo: https://github.com/asottile/pyupgrade
+  rev: v2.32.1
+  hooks:
+  - id: pyupgrade
+
+# Remove unused imports
+- repo: https://github.com/hadialqattan/pycln
+  rev: v1.3.1
+  hooks:
+  - id: pycln
+    args: [--config=pyproject.toml]
+
+# Convert relative to absolute imports
+- repo: https://github.com/MarcoGorelli/absolufy-imports
+  rev: v0.3.1
+  hooks:
+  - id: absolufy-imports
+
+# Sort imports
+- repo: https://github.com/pycqa/isort
+  rev: 5.5.4
+  hooks:
+  - id: isort
+    files: \.(py)$
+    args: [--settings-path=pyproject.toml]
+
+# If project is written in Python 3.9+, it will autofix List[str] to list[str] etc
+#- repo: https://github.com/sondrelg/pep585-upgrade
+#  rev: ''  # Use the sha / tag you want to point at
+#  hooks:
+#  - id: upgrade-type-hints
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.2.0
+  hooks:
+  # As the name says
+  - id: double-quote-string-fixer
+  # Check yaml files like this one and github actions if they are valid
+  - id: check-yaml
+  # Check toml files like pyproject.toml if it is valid
+  - id: check-toml
+  # Check if python files are valid
+  - id: check-ast
+  - id: check-builtin-literals
+  - id: check-docstring-first
+  - id: debug-statements
+
+- repo: https://github.com/pre-commit/pygrep-hooks
+  rev: v1.9.0
+  hooks:
+  # Check for bad code
+  - id: python-no-eval
+  - id: python-no-log-warn
+  # Enforce type annotation instead of comment annotation
+  - id: python-use-type-annotations
+
+# Autoformat yaml files
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.1.0
+  hooks:
+  - id: pretty-format-yaml
+    args: [--autofix, --indent, '2']
+
+# Check github action workflow files
+- repo: https://github.com/sirosen/check-jsonschema
+  rev: 0.14.3
+  hooks:
+  - id: check-github-workflows
+
+# Detect functions and variables that are never used
+#- repo: https://github.com/asottile/dead
+#  rev: v1.4.0
+#  hooks:
+#  - id: dead
+
+- repo: local
+  hooks:
+  # Autoformat python code
+  - id: yapf
+    name: format python code
+    stages: [commit]
+    language: system
+    entry: /bin/bash -c "poetry run yapf --in-place $(git ls-files '*.py')"
+    pass_filenames: false
+
+  # If you want to run manually:
+  # poetry run pylint $(git ls-files '*.py')
+  # poetry run pylint python_examples/templates
+  # poetry run pylint python_examples/templates/inspect_function.py
+  - id: pylint
+    name: pylint
+    stages: [commit]
+    language: system
+    entry: /bin/bash -c "poetry run pylint $(git ls-files '*.py')"
+    pass_filenames: false
+
+  # poetry run mypy ./
+  # poetry run mypy $(git ls-files '*.py')
+  # poetry run mypy python_examples/templates
+  # poetry run mypy python_examples/templates/inspect_function.py
+  # Run mypy type checks
+  - id: mypy
+    name: mypy
+    stages: [commit]
+    language: system
+    entry: /bin/bash -c "poetry run mypy $(git ls-files '*.py')"
+    pass_filenames: false
+
+  # TODO Figure out how to only format changed frontend files - have to pass in file names to the bash command?
+  # - id: format_svelte_frontend
+  #   name: format_svelte_frontend
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd svelte_frontend && npm run format"
+  #   files: ^svelte_frontend/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: lint_svelte_frontend
+  #   name: lint_svelte_frontend
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd svelte_frontend && npm run lint"
+  #   files: ^svelte_frontend/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: format_supabase_stream_scripts
+  #   name: format_supabase_stream_scripts
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd supabase_stream_scripts && npm run format"
+  #   files: ^supabase_stream_scripts/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: lint_supabase_stream_scripts
+  #   name: lint_supabase_stream_scripts
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd supabase_stream_scripts && npm run lint"
+  #   files: ^supabase_stream_scripts/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: format_replay_comparer
+  #   name: format_replay_comparer
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd replay_comparer && npm run format"
+  #   files: ^replay_comparer/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: lint_replay_comparer
+  #   name: lint_replay_comparer
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd replay_comparer && npm run lint"
+  #   files: ^replay_comparer/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: format_bored_gems
+  #   name: format_bored_gems
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd bored_gems && npm run format"
+  #   files: ^bored_gems/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: lint_bored_gems
+  #   name: lint_bored_gems
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd bored_gems && npm run lint"
+  #   files: ^bored_gems/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # Run python examples tests
+  - id: pytest_python_examples
+    name: pytest_python_examples
+    stages: [commit]
+    language: system
+    entry: poetry run pytest python_examples
+    pass_filenames: false
+
+  # Run fastapi server tests
+  - id: pytest_fastapi_server
+    name: pytest_fastapi_server
+    stages: [commit]
+    language: system
+    entry: poetry run pytest fastapi_server
+    pass_filenames: false
+
+  # Run supabase stream scripts tests (run build before test to create .svelte-kit folder with tsconfig.json)
+  # - id: test_supabase_stream_scripts
+  #   name: test_supabase_stream_scripts
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd supabase_stream_scripts && npm run build && npm run test"
+  #   files: ^supabase_stream_scripts/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # - id: test_bored_gems
+  #   name: test_bored_gems
+  #   stages: [commit]
+  #   language: system
+  #   entry: bash -c "cd bored_gems && npm run test"
+  #   files: ^bored_gems/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+  # Run svelte e2e tests
+  # - id: svelte_e2e_tests
+  #   name: svelte_e2e_tests
+  #   stages: [commit]
+  #   language: system
+  #   entry: poetry run pytest svelte_frontend/test_frontend/test_e2e.py --benchmark-skip
+  #   files: ^svelte_frontend/.*\.(svelte|ts|js)$
+  #   pass_filenames: false
+
+ - id: pytest-cov
+   name: pytest
+   stages: [push]
+   language: system
+   entry: poetry run pytest --cov=. --cov-fail-under=100
+   types: [python]
+   pass_filenames: false
