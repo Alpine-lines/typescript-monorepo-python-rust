@@ -3,18 +3,20 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "packages/**/**"
     ]
   },
   "engines": {
     "node": ">=16.0.0"
   },
   "scripts": {
-    "postinstall": "yarn setup:env && husky install && patch-package",
-    "scripts:bash": "bash scripts/script.sh",
-    "scripts:js": "node scripts/script.js",
-    "link:ui": "yarn workspace ui link ./",
-    "clean": "./clean_workspace.sh && yarn cache clean",
+    "test": "yarn test:unit",
+    "test:unit": "yarn jest ./test/unit/",
+    "test:ui": "yarn workspace ui run test",
+    "test:app": "yarn workspace app run test",
+    "test:desktop": "yarn workspace desktop run test",
+    "test:extension": "yarn workspace extension run test",
     "lint-staged": "lint-staged",
     "lint": "yarn workspaces run lint",
     "lint:ui": "yarn workspace ui run lint",
@@ -29,15 +31,15 @@
     "desktop": "yarn workspace desktop dev",
     "make:desktop": "yarn workspace desktop make",
     "package:desktop": "yarn workspace desktop package",
-    "fetch:locale": "yarn workspace @hunt/ui fetch:locale",
-    "test": "yarn test:unit",
-    "test:unit": "yarn jest ./test/unit/",
-    "test:ui": "yarn workspace ui run test",
-    "test:app": "yarn workspace app run test",
-    "test:desktop": "yarn workspace desktop run test",
-    "test:extension": "yarn workspace extension run test",
-    "setup:env": "if [ ! -f .env ]; then cp .env.example .env; fi",
-    "prepare": "husky install"
+    "install": "yarn install && yarn workspace ui install && yarn workspace desktop install && yarn postinstall",
+    "postinstall": "yarn setup:env && husky install && yarn link",
+    "scripts:bash": "bash scripts/script.sh",
+    "scripts:js": "node scripts/script.js",
+    "prepare": "husky install",
+    "clean": "./clean_workspace.sh && yarn cache clean",
+    "link:ui": "yarn workspace ui link ./",
+    "fetch:locale": "yarn workspace ui fetch:locale",
+    "setup:env": "if [ ! -f .env ]; then cp .env.example .env; fi"
   },
   "dependencies": {
     "axios": "^0.26.0",
@@ -117,7 +119,7 @@
     "**/immer": "^9"
   },
   "nohoist": [
-    "packages/ui/**/**",
+    "packages/common/ui/**/**",
     "packages/desktop/**/**"
   ]
 }
