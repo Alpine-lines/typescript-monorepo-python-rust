@@ -59,3 +59,8 @@ web-build/
 # Ignore code-workspaces
 *.code-workspace
 node_modules
+
+
+# Added by cargo
+
+/target
